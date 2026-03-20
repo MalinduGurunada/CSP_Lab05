@@ -13,6 +13,14 @@ builder.Services.AddCors(options =>
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
+
+    options.AddPolicy("AllowFrontend", policy =>
+    {
+        policy
+            .WithOrigins("https://malindu-frontend-lab05-cjg9fgf5b6gygkg8.centralindia-01.azurewebsites.net")
+            .AllowAnyHeader()
+            .AllowAnyMethod();
+    });
 });
 
 var app = builder.Build();
@@ -23,8 +31,8 @@ if (app.Environment.IsDevelopment())
     app.MapOpenApi();
 }
 
+app.UseCors("AllowFrontend");
 app.UseHttpsRedirection();
-app.UseCors("FrontendDev");
 
 var summaries = new[]
 {
